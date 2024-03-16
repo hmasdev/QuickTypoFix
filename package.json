@@ -65,7 +65,8 @@
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "test": "vscode-test"
+    "test": "vscode-test --grep Unit",
+    "test-integration": "vscode-test --grep Integration"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",

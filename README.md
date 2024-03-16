@@ -108,19 +108,32 @@ After fixed, the typo will be highlighted for a short period of time. Check them
     npm install
     ```
 
-6. Edit the source code.
+6. Edit the source code. Some notes as follows:
+
+   - Implement tests as follows:
+     - Unit Test: attach 'Unit Test' to the title in `describe`
+     - Integration Test: attach 'Integration Test' to the title in `describe`
+       - Note that "Integration Test" means the tests which require an external services like the OpenAI API.
 
 7. Test the extension:
 
-    ```sh
-    npm run test
-    ```
+   - Unit Test
 
-    Note that you need to add your OpenAI API key to the `.env` file before running test. The `.env` file should be like this:
+     ```sh
+     npm run test
+     ```
 
-    ```sh
-    OPENAI_API_KEY={YOUR_OPENAI_API_KEY}
-    ```
+   - Integration Test
+
+     ```sh
+     npm run test-integration
+     ```
+
+     Note that you need to add your OpenAI API key to the `.env` file before running integration tests. The `.env` file should be like this:
+
+     ```sh
+     OPENAI_API_KEY={YOUR_OPENAI_API_KEY}
+     ```
 
 8. Git commit and push the changes:
 
