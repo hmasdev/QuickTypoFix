@@ -1,6 +1,6 @@
 # QuickTypoFix
 
-![demo](./images/demo.gif)
+![demo](https://github.com/hmasdev/QuickTypoFix/blob/main/images/demo.gif)
 
 A versatile VSCode extension designed to instantly correct typos across all text files,
 streamlining your coding workflow with seamless OpenAI-powered spell checking and customizable dictionaries.
@@ -18,6 +18,7 @@ streamlining your coding workflow with seamless OpenAI-powered spell checking an
     - [vsce](https://code.visualstudio.com/api/working-with-extensions/publishing-extension)
     - [diff](https://www.npmjs.com/package/diff)
     - [node-fetch](https://www.npmjs.com/package/node-fetch)
+- [OpenAI API Key](https://platform.openai.com/api-keys)
 
 ## Installation
 
@@ -47,13 +48,14 @@ streamlining your coding workflow with seamless OpenAI-powered spell checking an
 
 5. Install the extension with `install from VSIX...` in VS Code.
 
-    ![Install the extension](./images/install-extension.png)
+    ![Install the extension](https://github.com/hmasdev/QuickTypoFix/blob/main/images/install-extension.png)
 
 ## Usage
 
 ### Preparation(Configuration)
 
-You can customize this extension:
+Open the setting page with `Ctrl+,` and search `quicktypofix`.
+Then you can customize this extension as follows:
 
 - **REQUIRED**
   - `quicktypofix.apiKey`: The API key for typo corrections. Default is an empty string;
@@ -114,6 +116,12 @@ After fixed, the typo will be highlighted for a short period of time. Check them
     npm run test
     ```
 
+    Note that you need to add your OpenAI API key to the `.env` file before running test. The `.env` file should be like this:
+
+    ```sh
+    OPENAI_API_KEY={YOUR_OPENAI_API_KEY}
+    ```
+
 8. Git commit and push the changes:
 
     ```sh
@@ -126,7 +134,7 @@ After fixed, the typo will be highlighted for a short period of time. Check them
 
 ## License
 
-- [MIT](./LICENSE)
+- [MIT](https://github.com/hmasdev/QuickTypoFix/blob/main/LICENSE)
 
 ## Author
 
