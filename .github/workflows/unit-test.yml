@@ -1,0 +1,30 @@
+# Automatically run unit tests on every push and pull-request to the repository
+
+name: Unit Test
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize]
+  schedule:
+    - cron: "0 17 * * 6"
+
+jobs:
+  run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: |
+          npm update
+          npm install
+
+      - name: Run unit tests
+        run: npm test

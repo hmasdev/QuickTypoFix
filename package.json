@@ -2,6 +2,10 @@
   "name": "quicktypofix",
   "displayName": "QuickTypoFix",
   "description": "QuickTypoFix: A versatile VSCode extension designed to instantly correct typos across all text files, streamlining your coding workflow with seamless OpenAI-powered spell checking and customizable dictionaries.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hmasdev/QuickTypoFix"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.87.0"
