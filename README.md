@@ -3,7 +3,9 @@
 ![demo](https://github.com/hmasdev/QuickTypoFix/blob/main/images/demo.gif)
 
 A versatile VSCode extension designed to instantly correct typos across all text files,
-streamlining your coding workflow with seamless OpenAI-powered spell checking and customizable dictionaries.
+streamlining your coding workflow with seamless LLM-powered typo correction.
+
+You can use [OpenAI chat completion API](https://platform.openai.com/docs/guides/text-generation/chat-completions-api) and also OpenAI compatible chat completion API like [groq](https://wow.groq.com/).
 
 ## Features
 
@@ -22,6 +24,18 @@ streamlining your coding workflow with seamless OpenAI-powered spell checking an
 - [OpenAI API Key](https://platform.openai.com/api-keys)
 
 ## Installation
+
+You can install this extension in two ways:
+
+### Download `.vsix` file
+
+1. Download the `.vsix` file from [https://github.com/hmasdev/QuickTypoFix/releases](https://github.com/hmasdev/QuickTypoFix/releases)
+
+2. Install the extension with `install from VSIX...` in VS Code.
+
+    ![Install the extension](https://github.com/hmasdev/QuickTypoFix/blob/main/images/install-extension.png)
+
+### Build from Source
 
 1. Clone the repository:
 
@@ -47,9 +61,7 @@ streamlining your coding workflow with seamless OpenAI-powered spell checking an
     vsce package
     ```
 
-5. Install the extension with `install from VSIX...` in VS Code.
-
-    ![Install the extension](https://github.com/hmasdev/QuickTypoFix/blob/main/images/install-extension.png)
+5. Install the extension with `install from VSIX...` in VS Code in the same way as the [above](#download-vsix-file).
 
 ## Usage
 
@@ -145,6 +157,25 @@ After fixed, the typo will be highlighted for a short period of time. Check them
     ```
 
 9. Create a pull request from the following link: `https://github.com/hmasdev/QuickTypoFix/compare/master...{YOUR_ACCOUT_HERE}:QuickTypoFix:{YOUR_BRANCH_NAME_HERE}`
+
+### Release
+
+Release the extension is automated by GitHub Actions. The following steps are for the maintainers:
+
+```sh
+npm version {HERE_IS_THE_VERSION}
+git push origin {HERE_IS_THE_VERSION}
+```
+
+where the tag format must be `%d.%d.%d` like `0.0.1`.
+
+After that, the maintainers should check the release page: [https://github.com/hmasdev/QuickTypoFix/releases](https://github.com/hmasdev/QuickTypoFix/releases)
+
+## TODO
+
+- [] Specify the versions of requirements
+- [] Implement the customizable dictionaries
+- [] Add the tests for ./temporalHighlight.js
 
 ## License
 
