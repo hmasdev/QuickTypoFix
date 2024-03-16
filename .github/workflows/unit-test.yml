@@ -27,4 +27,7 @@ jobs:
           npm install
 
       - name: Run unit tests
-        run: npm test
+        uses: coactions/setup-xvfb@v1
+        with:
+          run: npm test
+          working-directory: ./
