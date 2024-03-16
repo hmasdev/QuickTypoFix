@@ -13,6 +13,7 @@ streamlining your coding workflow with seamless OpenAI-powered spell checking an
 ## Requirements
 
 - [Visual Studio Code](https://code.visualstudio.com/)
+- [Node.js](https://nodejs.org/)
 - [npm](https://www.npmjs.com/get-npm)
   - Dependencies:
     - [vsce](https://code.visualstudio.com/api/working-with-extensions/publishing-extension)
