@@ -1,6 +1,6 @@
 const vscode = require('vscode');
 
-const DEFAULT_HIGHLIGHT_TIMEOUT = 3000;
+const DEFAULT_HIGHLIGHT_TIMEOUT = 1000;
 const DEFAULT_ADDED_HIGHLIGHT_COLOR = 'rgba(0, 255, 0, 0.3)';
 const DEFAULT_REMOVED_HIGHLIGHT_COLOR = 'rgba(255, 0, 0, 0.3)';
 

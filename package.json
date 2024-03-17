@@ -55,13 +55,18 @@
         },
         "quicktypofix.highlightTimeout": {
           "type": "number",
-          "default": 3000,
+          "default": 1000,
           "description": "Timeout for highlighting typo corrections."
         },
-        "quicktypofix.highlightColor": {
+        "quicktypofix.addedHighlightColor": {
           "type": "string",
-          "default": "rgba(255, 255, 0, 0.5)",
-          "description": "Color for highlighting typo corrections like #FFFF00 or rgba(255, 255, 0, 0.5)."
+          "default": "rgba(0. 255, 0, 0.5)",
+          "description": "Color for highlighting typo corrections like #00FF00 or rgba(0, 255, 0, 0.5)."
+        },
+        "quicktypofix.removedHighlightColor": {
+          "type": "string",
+          "default": "rgba(255, 0, 0, 0.5)",
+          "description": "Color for highlighting typo corrections like #FF0000 or rgba(255, 0, 0, 0.5)."
         }
       }
     }
