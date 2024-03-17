@@ -12,7 +12,7 @@ describe('fixTypo Test Suite', () => {
             process.env.OPENAI_API_KEY = 'test';
         });
 
-        it('isResponseModel should return true for valid data', () => {
+        it('validateResponseData should return true for valid data', () => {
             const data = {
                 choices: [
                     {
@@ -22,10 +22,10 @@ describe('fixTypo Test Suite', () => {
                     },
                 ],
             };
-            expect(typoFix.isResponseModel(data)).toBe(true);
+            expect(typoFix.__get__('validateResponseData')(data)).toBe(true);
         });
 
-        it('isResponseModel should return false for invalid data', () => {
+        it('validateResponseData should return false for invalid data', () => {
             const data = {
                 choices: [
                     {
@@ -35,7 +35,7 @@ describe('fixTypo Test Suite', () => {
                     },
                 ],
             };
-            expect(typoFix.isResponseModel(data)).toBe(false);
+            expect(typoFix.__get__('validateResponseData')(data)).toBe(false);
         });
 
         [
@@ -74,7 +74,7 @@ describe('fixTypo Test Suite', () => {
             expect(() => typoFix.__get__('extractFixedText')(inputText)).toThrow();
         });
 
-        it('should return the corrected typo', async () => {
+        it('fixTypoe should return the corrected typo', async () => {
             const inputText = 'This is a test lime with a typoo.';
             const expectedText = 'This is a test line with a typo.';
             const response = {
@@ -86,18 +86,43 @@ describe('fixTypo Test Suite', () => {
                     },
                 ],
             };
-
             // Mock fetch
             const url = new URL(typoFix.DEFAULT_API_ENDPOINT);
             nock(`${url.protocol}//${url.host}`)
                 .post(`${url.pathname}${url.search}`)
                 .reply(200, response);
-
             // execute
             const result = await typoFix.fixTypo(inputText);
-
             // verify
             expect(result).toBe(expectedText);
+        });
+
+        it('fixTypo should throw an error for not-200 status', async () => {
+            const inputText = 'This is a test lime with a typoo.';
+            // Mock fetch
+            const url = new URL(typoFix.DEFAULT_API_ENDPOINT);
+            nock(`${url.protocol}//${url.host}`)
+                .post(`${url.pathname}${url.search}`)
+                .reply(404);
+            // execute and verify
+            await expect(typoFix.fixTypo(inputText)).rejects.toThrow();
+        });
+
+        it('fixTypo should throw an error for invalid response', async () => {
+            const inputText = 'This is a test lime with a typoo.';
+            const response = {invalid: true};
+            // Mock fetch
+            const url = new URL(typoFix.DEFAULT_API_ENDPOINT);
+            nock(`${url.protocol}//${url.host}`)
+                .post(`${url.pathname}${url.search}`)
+                .reply(200, response);
+            // execute and verify
+            await expect(typoFix.fixTypo(inputText)).rejects.toThrow();
+        });
+
+        it('fixTypo should throw an error without apiKey', async () => {
+            process.env.OPENAI_API_KEY = undefined;
+            await expect(typoFix.fixTypo('')).rejects.toThrow();
         });
 
         afterEach(() => {
@@ -106,11 +131,9 @@ describe('fixTypo Test Suite', () => {
             nock.cleanAll();
         });
 
-        // Case: apiKey is not found
         // Case: apiEndpoint is not found
         // Case: modelName is not found
-        // Case: status is not 200
-        // Case: invalid response
+        // Case: systemPrompt is not found
     });
 
     describe('Integration Test', () => {
