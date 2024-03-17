@@ -3,6 +3,7 @@ const expect = require('expect').expect;
 const vscode = require('vscode');
 const nock = require('nock');
 const sinon = require('sinon');
+const diff = require('diff');
 const TypoFixer = require('../extension').TypoFixer;
 const DEFAULT_API_ENDPOINT = require('../typoFix').DEFAULT_API_ENDPOINT;
 
@@ -39,19 +40,30 @@ describe('Extension Test Suite', () => {
 			const cursorPosition = new vscode.Position(0, 0);
 			const cursorLineText = 'This is a test lime with a typoo';
 			const expectedText = 'This is a test line with a typo';
+			const mergedText = diff.diffChars(cursorLineText, expectedText).map(change => {return change.value}).join('');
 			let actualPlaceHolder = undefined;
 			let fetchCalledCount = 0;
+			let firstCallOfEdit = true;
 			// mock editor
 			const editSpy = sinon.spy((callback, options) => {
 				console.log('editSpy called');
 				const editBuilder = {
 					replace: (range, text) => {
-						assert.strictEqual(range.start.line, cursorPosition.line);
-						assert.strictEqual(range.start.character, 0);
-						assert.strictEqual(range.end.line, cursorPosition.line);
-						assert.strictEqual(range.end.character, cursorLineText.length);
-						assert.strictEqual(text, expectedText);
-						actualPlaceHolder = text;
+						if (firstCallOfEdit) {
+							assert.strictEqual(range.start.line, cursorPosition.line);
+							assert.strictEqual(range.start.character, 0);
+							assert.strictEqual(range.end.line, cursorPosition.line);
+							assert.strictEqual(range.end.character, cursorLineText.length);
+							assert.strictEqual(text, mergedText);
+							firstCallOfEdit = false;
+						} else {
+							assert.strictEqual(range.start.line, cursorPosition.line);
+							assert.strictEqual(range.start.character, 0);
+							assert.strictEqual(range.end.line, cursorPosition.line);
+							assert.strictEqual(range.end.character, mergedText.length);
+							assert.strictEqual(text, expectedText);
+							actualPlaceHolder = text;
+						}
 					}
 				};
 				options;
@@ -90,7 +102,7 @@ describe('Extension Test Suite', () => {
 			await typoFixer.run();
 			// verify
 			expect(fetchCalledCount).toBe(1);  // Verify LLM API is called
-			expect(editSpy.calledOnce).toBe(true);  // Verify editor is edited
+			expect(editSpy.calledTwice).toBe(true);  // Verify editor is edited
 			expect(actualPlaceHolder).toBe(expectedText);
 		});
 

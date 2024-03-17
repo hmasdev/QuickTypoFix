@@ -1,4 +1,5 @@
 const vscode = require('vscode');
+const diff = require('diff');
 const fixTypo = require('./typoFix').fixTypo;
 const temporalHighLight = require('./temporalHighLight').temporalHighLight;
 
@@ -20,7 +21,7 @@ class TypoFixer {
 		this._is_activated = false;
 	}
 
-    async run() {
+	async run() {
 
 		if (!this.is_activated()) {
 			vscode.window.showInformationMessage('QuickTypoFix is not activated');
@@ -52,17 +53,29 @@ class TypoFixer {
 			return;
         }
 
-		// replace the line with the fixed text
+		// specify changes
+		let changes = diff.diffChars(cursorLineText, fixedText);
+		let mergedText = changes.map(change => {return change.value}).join('');
+
+		// temporally show the before and after text
 		await editor.edit(editBuilder => {
 			const lineStart = new vscode.Position(cursorLine, 0);
 			const lineEnd = new vscode.Position(cursorLine, cursorLineText.length);
 			const lineRange = new vscode.Range(lineStart, lineEnd);
+			editBuilder.replace(lineRange, mergedText);
+		});
+
+		// highlight the fixed text
+		temporalHighLight(editor, cursorLine, changes)
+
+		// replace the line with the fixed text
+		await editor.edit(editBuilder => {
+			const lineStart = new vscode.Position(cursorLine, 0);
+			const lineEnd = new vscode.Position(cursorLine, mergedText.length);
+			const lineRange = new vscode.Range(lineStart, lineEnd);
 			editBuilder.replace(lineRange, fixedText);
 		});
 		vscode.window.showInformationMessage('Typo corrected');
-
-		// highlight the fixed text
-		temporalHighLight(editor, cursorLine, cursorLineText, fixedText);
     }
 }
 
