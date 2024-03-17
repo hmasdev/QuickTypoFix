@@ -8,7 +8,7 @@ const START_TAG = `<${OUTPUT_FORMAT_KEY}>`;
 const END_TAG = `</${OUTPUT_FORMAT_KEY}>`;
 const OUTPUT_INSTRUCTIONS = `OUTPUT FORMAT\n<${OUTPUT_FORMAT_KEY}>{HERE_IS_FIXED_SENTENCE}</${OUTPUT_FORMAT_KEY}>\n`;
 
-function isResponseModel(data) {
+function validateResponseData(data) {
     return (
         data.choices &&
         Array.isArray(data.choices) &&
@@ -86,7 +86,7 @@ async function fixTypo(text){
         }
         return response.json();
     }).then((data) => {
-        if (isResponseModel(data)) {
+        if (validateResponseData(data)) {
             return extractFixedText(data.choices[0].message.content);
         } else {
             throw new Error(`Invalid response from ${apiEndpoint}: ${data}`);
@@ -100,5 +100,4 @@ module.exports = {
     DEFAULT_API_ENDPOINT,
     DEFAUT_MODEL_NAME,
     fixTypo,
-    isResponseModel,
 };
