@@ -3,6 +3,10 @@ const fetch = require('node-fetch');
 
 const DEFAULT_API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 const DEFAUT_MODEL_NAME = 'gpt-3.5-turbo';
+const OUTPUT_FORMAT_KEY = 'typoFixed';
+const START_TAG = `<${OUTPUT_FORMAT_KEY}>`;
+const END_TAG = `</${OUTPUT_FORMAT_KEY}>`;
+const OUTPUT_INSTRUCTIONS = `OUTPUT FORMAT\n<${OUTPUT_FORMAT_KEY}>{HERE_IS_FIXED_SENTENCE}</${OUTPUT_FORMAT_KEY}>\n`;
 
 function isResponseModel(data) {
     return (
@@ -13,6 +17,26 @@ function isResponseModel(data) {
         data.choices[0].message.content &&
         (typeof data.choices[0].message.content === 'string')
     );
+}
+
+function extractFixedText(text) {
+    // check
+    if (typeof text !== 'string') {
+        throw new Error(`Type error: text is not a string but ${typeof text} with contents: "${text}"`);
+    }
+    if (!text.includes(START_TAG)) {
+        console.warn(`The start tag, ${START_TAG}, is not found in text: "${text}"`);
+    }
+    if (!text.includes(END_TAG)) {
+        console.warn(`The end tag, ${END_TAG}, is not found in text: "${text}"`);
+    }
+    // extract
+    let fixedText = text.split(END_TAG)[0];
+    let texts = fixedText.split(START_TAG);
+    if (texts.length > 1) {
+        fixedText = texts[1];
+    }
+    return fixedText;
 }
 
 async function fixTypo(text){
@@ -47,7 +71,7 @@ async function fixTypo(text){
         },
         body: JSON.stringify({
             messages: [
-                {role: 'system', content: systemPrompt},
+                {role: 'system', content: systemPrompt+'\n\n'+OUTPUT_INSTRUCTIONS},
                 {role: 'user', content: `Fix typo: ${text}`},
             ],
             temperature: 0.5,
@@ -63,7 +87,7 @@ async function fixTypo(text){
         return response.json();
     }).then((data) => {
         if (isResponseModel(data)) {
-            return data.choices[0].message.content;
+            return extractFixedText(data.choices[0].message.content);
         } else {
             throw new Error(`Invalid response from ${apiEndpoint}: ${data}`);
         }
