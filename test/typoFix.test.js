@@ -1,9 +1,7 @@
-const fixTypo = require('../typoFix').fixTypo;
-const DEFAULT_API_ENDPOINT = require('../typoFix').DEFAULT_API_ENDPOINT;
-const isResponseModel = require('../typoFix').isResponseModel;
 const nock = require('nock');
 const expect = require('expect').expect;
-
+const rewire = require('rewire');
+const typoFix = rewire('../typoFix');
 
 describe('fixTypo Test Suite', () => {
 
@@ -24,7 +22,7 @@ describe('fixTypo Test Suite', () => {
                     },
                 ],
             };
-            expect(isResponseModel(data)).toBe(true);
+            expect(typoFix.isResponseModel(data)).toBe(true);
         });
 
         it('isResponseModel should return false for invalid data', () => {
@@ -37,7 +35,43 @@ describe('fixTypo Test Suite', () => {
                     },
                 ],
             };
-            expect(isResponseModel(data)).toBe(false);
+            expect(typoFix.isResponseModel(data)).toBe(false);
+        });
+
+        [
+            [
+                'This is a test line with a typo corrected',
+                'This is a test line with a typo corrected',
+                'No tags',
+            ],
+            [
+                `${typoFix.__get__('START_TAG')}This is a test line with a typo corrected`,
+                'This is a test line with a typo corrected',
+                'Start tag only',
+            ],
+            [
+                `This is a test line with a typo corrected${typoFix.__get__('END_TAG')}`,
+                `This is a test line with a typo corrected`,
+                'End tag only',
+            ],
+            [
+                `${typoFix.__get__('START_TAG')}This is a test line with a typo corrected${typoFix.__get__('END_TAG')}`,
+                'This is a test line with a typo corrected',
+                'Start and end tags',
+            ],
+        ].forEach(([inputText, expectedText, caseInfo]) => {
+            it(
+                `extractFixedText should the text between the start tag and the end tag: ${caseInfo}`,
+                () => {
+                    const actualText = typoFix.__get__('extractFixedText')(inputText);
+                    expect(actualText).toBe(expectedText);
+                }
+            );
+        });
+
+        it('extractFixedText should throw an error for non-string input', () => {
+            const inputText = 123;
+            expect(() => typoFix.__get__('extractFixedText')(inputText)).toThrow();
         });
 
         it('should return the corrected typo', async () => {
@@ -54,13 +88,13 @@ describe('fixTypo Test Suite', () => {
             };
 
             // Mock fetch
-            const url = new URL(DEFAULT_API_ENDPOINT);
+            const url = new URL(typoFix.DEFAULT_API_ENDPOINT);
             nock(`${url.protocol}//${url.host}`)
                 .post(`${url.pathname}${url.search}`)
                 .reply(200, response);
 
             // execute
-            const result = await fixTypo(inputText);
+            const result = await typoFix.fixTypo(inputText);
 
             // verify
             expect(result).toBe(expectedText);
@@ -94,7 +128,7 @@ describe('fixTypo Test Suite', () => {
             const inputText = 'This is a test lime with a typoo.';
             const expectedText = 'This is a test line with a typo.';
             // execute
-            const result = await fixTypo(inputText);
+            const result = await typoFix.fixTypo(inputText);
             // verify
             expect(result).toBe(expectedText);
         });
