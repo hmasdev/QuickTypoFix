@@ -47,8 +47,9 @@ class TypoFixer {
         try {
 			fixedText = await fixTypo(cursorLineText);
         } catch (error) {
-            console.error('Error correcting typo:', error);
-            vscode.window.showErrorMessage('Failed to correct typo');
+            console.error(`Failed to fix typo: ${error}`);
+            vscode.window.showErrorMessage(`Failed to fix typo: ${error}`);
+			return;
         }
 
 		// replace the line with the fixed text
@@ -71,9 +72,7 @@ function activate(context) {
 
     let typoFixer = new TypoFixer();
 
-    let disposable = vscode.commands.registerCommand('quicktypofix.fixTypo', () => {
-        typoFixer.run();
-    });
+    let disposable = vscode.commands.registerCommand('quicktypofix.fixTypo', typoFixer.run);
     context.subscriptions.push(disposable);
 }
 
