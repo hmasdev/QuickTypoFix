@@ -62,6 +62,7 @@ async function temporalHighLight(editor, cursorLine, changes) {
             editor.setDecorations(removedDecorationType, []);
             addedDecorationType.dispose();
             removedDecorationType.dispose();
+            reject;
             resolve();
         }, highlightTimeout)
     });

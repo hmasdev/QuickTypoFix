@@ -1,5 +1,11 @@
 # QuickTypoFix
 
+![GitHub top language](https://img.shields.io/github/languages/top/hmasdev/QuickTypoFix)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/hmasdev/QuickTypoFix?sort=semver)
+![GitHub](https://img.shields.io/github/license/hmasdev/QuickTypoFix)
+![GitHub last commit](https://img.shields.io/github/last-commit/hmasdev/QuickTypoFix)
+![Test](https://github.com/hmasdev/QuickTypoFix/actions/workflows/unit-test.yml/badge.svg)
+
 ![demo](https://github.com/hmasdev/QuickTypoFix/blob/main/images/demo.gif)
 
 A versatile VSCode extension designed to instantly correct typos across all text files,
@@ -14,14 +20,10 @@ You can use [OpenAI chat completion API](https://platform.openai.com/docs/guides
 
 ## Requirements
 
-- [Visual Studio Code](https://code.visualstudio.com/)
-- [Node.js](https://nodejs.org/)
-- [npm](https://www.npmjs.com/get-npm)
-  - Dependencies:
-    - [vsce](https://code.visualstudio.com/api/working-with-extensions/publishing-extension)
-    - [diff](https://www.npmjs.com/package/diff)
-    - [node-fetch](https://www.npmjs.com/package/node-fetch)
+- [Visual Studio Code](https://code.visualstudio.com/) >= 1.87.0
 - [OpenAI API Key](https://platform.openai.com/api-keys)
+
+  - Note that you can use the API key for an OpenAI compatible chat completion API like [groq](https://wow.groq.com/).
 
 ## Installation
 
@@ -77,7 +79,8 @@ Then you can customize this extension as follows:
   - `quicktypofix.modelName`: The LLM model name for typo corrections. Default is `gpt-3.5-turbo`;
   - `quicktypofix.systemPrompt`: The system prompt for typo corrections. Default is 'Excellent Typo Fixer. Output the only fixed sentence without any header or any footer.';
   - `quicktypofix.highlightTimeout`: The timeout for the highlight in milliseconds. Default is 3000;
-  - `quicktypofix.highlightColor`: The color for the highlight like `rgba(255, 255, 0, 0.5)` or `#FFFF00`. Default is `rgba(255, 255, 0, 0.5)`.
+  - `quicktypofix.addedHighlightColor`: The highlight color for added characters like `rgba(0, 255, 0, 0.5)` or `#00FF00`. Default is `rgba(0, 255, 0, 0.5)`;
+  - `quicktypofix.removedHighlightColor`: The highlight color for removed characters like `rgba(255, 0, 0, 0.5)` or `#FF0000`. Default is `rgba(255, 0, 0, 0.5)`;
 
 ### Use this Extension
 
@@ -94,6 +97,17 @@ or
 After fixed, the typo will be highlighted for a short period of time. Check them.
 
 ## Development
+
+### Requirements
+
+- [Node.js](https://nodejs.org/) >= v20.11.1
+- [npm](https://www.npmjs.com/get-npm)
+  - Dependencies (See the [package.json](./package.json) for the details)
+    - [vsce](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) >= 2.24.0
+    - [diff](https://www.npmjs.com/package/diff) >= 5.2.0
+    - [node-fetch](https://www.npmjs.com/package/ node-fetch) >= 2.6.7
+
+### How to Develop
 
 1. Fork the repository: [https://github.com/hmasdev/QuickTypoFix/fork](https://github.com/hmasdev/QuickTypoFix/fork)
 
@@ -173,9 +187,9 @@ After that, the maintainers should check the release page: [https://github.com/h
 
 ## TODO
 
-- [] Specify the versions of requirements
+- [x] ~~Specify the versions of requirements~~
 - [] Implement the customizable dictionaries
-- [] Add the tests for ./temporalHighlight.js
+- [x] ~~Add the tests for ./temporalHighlight.js~~
 
 ## License
 
