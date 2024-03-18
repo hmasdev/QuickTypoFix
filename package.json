@@ -60,7 +60,7 @@
         },
         "quicktypofix.addedHighlightColor": {
           "type": "string",
-          "default": "rgba(0. 255, 0, 0.5)",
+          "default": "rgba(0, 255, 0, 0.5)",
           "description": "Color for highlighting typo corrections like #00FF00 or rgba(0, 255, 0, 0.5)."
         },
         "quicktypofix.removedHighlightColor": {

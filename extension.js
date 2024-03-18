@@ -64,9 +64,8 @@ class TypoFixer {
 			const lineRange = new vscode.Range(lineStart, lineEnd);
 			editBuilder.replace(lineRange, mergedText);
 		});
-
-		// highlight the fixed text
-		temporalHighLight(editor, cursorLine, changes)
+		// highlight the merged text
+		await temporalHighLight(editor, cursorLine, changes);
 
 		// replace the line with the fixed text
 		await editor.edit(editBuilder => {
@@ -75,6 +74,8 @@ class TypoFixer {
 			const lineRange = new vscode.Range(lineStart, lineEnd);
 			editBuilder.replace(lineRange, fixedText);
 		});
+		// highlight the fixed text
+		await temporalHighLight(editor, cursorLine, changes.filter(change => !change.removed));
 		vscode.window.showInformationMessage('Typo corrected');
     }
 }
@@ -85,7 +86,7 @@ function activate(context) {
 
     let typoFixer = new TypoFixer();
 
-    let disposable = vscode.commands.registerCommand('quicktypofix.fixTypo', typoFixer.run);
+    let disposable = vscode.commands.registerCommand('quicktypofix.fixTypo', ()=>{typoFixer.run();});
     context.subscriptions.push(disposable);
 }
 
