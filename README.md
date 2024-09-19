@@ -188,7 +188,7 @@ After that, the maintainers should check the release page: [https://github.com/h
 ## TODO
 
 - [x] ~~Specify the versions of requirements~~
-- [] Implement the customizable dictionaries
+- [ ] Implement the customizable dictionaries
 - [x] ~~Add the tests for ./temporalHighlight.js~~
 
 ## License

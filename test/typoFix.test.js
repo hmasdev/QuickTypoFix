@@ -1,7 +1,7 @@
 const nock = require('nock');
 const expect = require('expect').expect;
 const rewire = require('rewire');
-const typoFix = rewire('../typoFix');
+const typoFix = rewire('../src/typoFix');
 
 describe('fixTypo Test Suite', () => {
 
