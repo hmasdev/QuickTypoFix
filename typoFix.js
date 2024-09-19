@@ -2,7 +2,7 @@ const vscode = require('vscode');
 const fetch = require('node-fetch');
 
 const DEFAULT_API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
-const DEFAUT_MODEL_NAME = 'gpt-3.5-turbo';
+const DEFAUT_MODEL_NAME = 'gpt-4o-mini';
 const OUTPUT_FORMAT_KEY = 'typoFixed';
 const START_TAG = `<${OUTPUT_FORMAT_KEY}>`;
 const END_TAG = `</${OUTPUT_FORMAT_KEY}>`;
