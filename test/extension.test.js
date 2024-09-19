@@ -4,8 +4,8 @@ const vscode = require('vscode');
 const nock = require('nock');
 const sinon = require('sinon');
 const diff = require('diff');
-const TypoFixer = require('../extension').TypoFixer;
-const DEFAULT_API_ENDPOINT = require('../typoFix').DEFAULT_API_ENDPOINT;
+const TypoFixer = require('../src/extension').TypoFixer;
+const DEFAULT_API_ENDPOINT = require('../src/typoFix').DEFAULT_API_ENDPOINT;
 
 
 describe('Extension Test Suite', () => {

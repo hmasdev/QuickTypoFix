@@ -1,7 +1,7 @@
 const expect = require('expect').expect;
 const diff = require('diff');
 const rewire = require('rewire');
-const temporalHighLight = rewire('../temporalHighLight');
+const temporalHighLight = rewire('../src/temporalHighLight');
 
 describe('temporalHighLight Test Suite', () => {
     describe('Unit Test', () => {
