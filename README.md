@@ -76,7 +76,7 @@ Then you can customize this extension as follows:
   - `quicktypofix.apiKey`: The API key for typo corrections. Default is an empty string;
 - **Optional**
   - `quicktypofix.apiEndpoint`: The OpenAI-compatible chat completion API endpoint for typo corrections. Default is [https://api.openai.com/v1/chat/completions](https://api.openai.com/v1/chat/completions);
-  - `quicktypofix.modelName`: The LLM model name for typo corrections. Default is `gpt-3.5-turbo`;
+  - `quicktypofix.modelName`: The LLM model name for typo corrections. Default is `gpt-4o-mini`;
   - `quicktypofix.systemPrompt`: The system prompt for typo corrections. Default is 'Excellent Typo Fixer. Output the only fixed sentence without any header or any footer.';
   - `quicktypofix.highlightTimeout`: The timeout for the highlight in milliseconds. Default is 3000;
   - `quicktypofix.addedHighlightColor`: The highlight color for added characters like `rgba(0, 255, 0, 0.5)` or `#00FF00`. Default is `rgba(0, 255, 0, 0.5)`;
