@@ -32,7 +32,7 @@ describe('apiKeyManagement Test Suite', () => {
             };
         });
 
-        it('registerApiKey stores the API key with Vaid API Key', async () => {
+        it('registerApiKey stores the API key with Valid API Key', async () => {
             // preparation
             const DUMMY_API_KEY = 'DUMMY_API_KEY';
             // Mock
