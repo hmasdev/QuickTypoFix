@@ -91,11 +91,11 @@ function activate(context) {
 
     let fixType_ = vscode.commands.registerCommand('quicktypofix.fixTypo', ()=>{typoFixer.run(context);});
     context.subscriptions.push(fixType_);
-	let registerApiKey_ = vscode.commands.registerCommand('quickTypoFix.registerApiKey', async () => {await registerApiKey(context);});
+	let registerApiKey_ = vscode.commands.registerCommand('quicktypofix.registerApiKey', async () => {await registerApiKey(context);});
 	context.subscriptions.push(registerApiKey_);
-	let clearApiKey_ = vscode.commands.registerCommand('quickTypoFix.clearApiKey', async () => {await clearApiKey(context);});
+	let clearApiKey_ = vscode.commands.registerCommand('quicktypofix.clearApiKey', async () => {await clearApiKey(context);});
 	context.subscriptions.push(clearApiKey_);
-	let previewMaskedApiKey_ = vscode.commands.registerCommand('quickTypoFix.previewMaskedApiKey', async () => {await previewMaskedApiKey(context);});
+	let previewMaskedApiKey_ = vscode.commands.registerCommand('quicktypofix.previewMaskedApiKey', async () => {await previewMaskedApiKey(context);});
 	context.subscriptions.push(previewMaskedApiKey_);
 }
 

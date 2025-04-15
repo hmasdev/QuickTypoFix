@@ -18,15 +18,15 @@
   "contributes": {
     "commands": [
       {
-        "command": "quickTypoFix.registerApiKey",
+        "command": "quicktypofix.registerApiKey",
         "title": "QuickTypoFix: Register API Key"
       },
       {
-        "command": "quickTypoFix.clearApiKey",
+        "command": "quicktypofix.clearApiKey",
         "title": "QuickTypoFix: Clear Stored API Key"
       },
       {
-        "command": "quickTypoFix.previewMaskedApiKey",
+        "command": "quicktypofix.previewMaskedApiKey",
         "title": "QuickTypoFix: Preview Masked API Key"
       },
       {
