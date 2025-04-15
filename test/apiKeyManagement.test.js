@@ -40,9 +40,9 @@ describe('apiKeyManagement Test Suite', () => {
                 'vscode': {
                     window: {
                         showInputBox: sinon.stub().resolves(DUMMY_API_KEY),
-                        showInformationMessage: sinon.stub(),
-                        showWarningMessage: sinon.stub(),
-                        showErrorMessage: sinon.stub(),
+                        showInformationMessage: sinon.stub(),  // TODO: spy
+                        showWarningMessage: sinon.stub(),  // TODO: spy
+                        showErrorMessage: sinon.stub(),  // TODO: spy
                     }
                 }
             }).registerApiKey;
@@ -57,9 +57,9 @@ describe('apiKeyManagement Test Suite', () => {
                 'vscode': {
                     window: {
                         showInputBox: sinon.stub().resolves(''),
-                        showInformationMessage: sinon.stub(),
-                        showWarningMessage: sinon.stub(),
-                        showErrorMessage: sinon.stub(),
+                        showInformationMessage: sinon.stub(),  // TODO: spy
+                        showWarningMessage: sinon.stub(),  // TODO: spy
+                        showErrorMessage: sinon.stub(),  // TODO: spy
                     }
                 }
             }).registerApiKey;
@@ -74,9 +74,9 @@ describe('apiKeyManagement Test Suite', () => {
                 'vscode': {
                     window: {
                         showInputBox: sinon.stub().resolves(undefined),
-                        showInformationMessage: sinon.stub(),
-                        showWarningMessage: sinon.stub(),
-                        showErrorMessage: sinon.stub(),
+                        showInformationMessage: sinon.stub(),  // TODO: spy
+                        showWarningMessage: sinon.stub(),  // TODO: spy
+                        showErrorMessage: sinon.stub(),  // TODO: spy
                     }
                 }
             }).registerApiKey;
@@ -118,7 +118,24 @@ describe('apiKeyManagement Test Suite', () => {
             assert.strictEqual(context.secrets.get(API_KEY_SECRET_ID), undefined);
         })
 
-        // TODO: previewMaskedApiKey test
+        it('previewMaskedApiKey shows the masked API key', async () => {
+            // preparation
+            const DUMMY_API_KEY = 'DUMMY_API_KEY';
+            context.secrets.store(API_KEY_SECRET_ID, DUMMY_API_KEY);
+            const showInformationMessageSpy = sinon.spy();
+            const previewMaskedApiKey = proxyquire('../src/apiKeyManagement', {
+                'vscode': {
+                    window: {
+                        showInputBox: sinon.stub().resolves(undefined),
+                        showInformationMessage: showInformationMessageSpy,
+                    }
+                }
+            }).previewMaskedApiKey;
+            // Execute
+            await previewMaskedApiKey(context);
+            // Assert
+            assert.strictEqual(showInformationMessageSpy.calledOnce, true);
+        });
 
         afterEach(() => {
             context = undefined;

@@ -42,7 +42,7 @@ async function clearApiKey(context) {
 }
 
 async function previewMaskedApiKey(context) {
-    const apiKey = await getApiKey(context, false);
+    const apiKey = await getApiKey(context);
     vscode.window.showInformationMessage(`API Key: ${getApiKeyPreview(apiKey)}`);
 }
 
