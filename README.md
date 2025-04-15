@@ -71,7 +71,7 @@ You can install this extension in two ways:
 
 #### Required Configuration
 
-Open the command pallete with `Ctrl+Shift+P` and type `QuickTypoFix: Register API Key`.
+Open the command palette with `Ctrl+Shift+P` and type `QuickTypoFix: Register API Key`.
 Then type your OpenAI API key and press `Enter`.
 
 #### Optional Configuration
