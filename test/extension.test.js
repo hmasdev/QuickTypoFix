@@ -1,10 +1,10 @@
 const assert = require('assert');
 const expect = require('expect').expect;
+const proxyquire = require('proxyquire');
 const vscode = require('vscode');
 const nock = require('nock');
 const sinon = require('sinon');
 const diff = require('diff');
-const TypoFixer = require('../src/extension').TypoFixer;
 const DEFAULT_API_ENDPOINT = require('../src/typoFix').DEFAULT_API_ENDPOINT;
 
 
@@ -12,8 +12,17 @@ describe('Extension Test Suite', () => {
 
 	describe('Unit Test', () => {
 
-		beforeEach(() => {
-			process.env.OPENAI_API_KEY = 'test';
+		let TypoFixer;
+
+		before(() => {
+			const typoFixMock = proxyquire('../src/typoFix', {
+				'./apiKeyManagement': {
+					getApiKey: sinon.stub().resolves('DUMMY_API_KEY'),
+				}
+			});
+			TypoFixer = proxyquire('../src/extension', {
+				'./typoFix': typoFixMock,
+			}).TypoFixer;
 		});
 
 		it('TypoFixer is activated', () => {
@@ -194,13 +203,22 @@ describe('Extension Test Suite', () => {
 
 	describe('Integration Test', () => {
 
+		let TypoFixer;
 		let processEnvBackup = undefined;
 
-        beforeEach(() => {
+        before(() => {
             nock.cleanAll();
             nock.enableNetConnect();
             processEnvBackup = process.env;
             require('dotenv').config({override: true, debug: true, path: '../../.env'});
+			const typoFixMock = proxyquire('../src/typoFix', {
+				'./apiKeyManagement': {
+					getApiKey: sinon.stub().resolves(process.env.OPENAI_API_KEY),
+				}
+			});
+			TypoFixer = proxyquire('../src/extension', {
+				'./typoFix': typoFixMock,
+			}).TypoFixer;
         });
 
 		it('TypoFixer.run can run', async () => {
@@ -217,7 +235,7 @@ describe('Extension Test Suite', () => {
 			expect(text).toBe(expectedText);
 		});
 
-		afterEach(() => {
+		after(() => {
             process.env = processEnvBackup;
         });
 

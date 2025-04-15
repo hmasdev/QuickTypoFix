@@ -101,4 +101,8 @@ module.exports = {
     DEFAULT_API_ENDPOINT,
     DEFAUT_MODEL_NAME,
     fixTypo,
+    START_TAG,  // FIXME: this should be private, but it is used in the test code
+    END_TAG,  // FIXME: this should be private, but it is used in the test code
+    extractFixedText,  // FIXME: this should be private, but it is used in the test code
+    validateResponseData,  // FIXME: this should be private, but it is used in the test code
 };
