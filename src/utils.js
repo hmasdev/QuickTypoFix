@@ -17,4 +17,5 @@ function getApiKeyPreview(apiKey) {
 
 module.exports = {
     getApiKeyPreview,
+    MASK_THRESHOLD,  // FIXME: this should be private, but it is used in the test code
 };
