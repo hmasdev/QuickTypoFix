@@ -88,7 +88,7 @@ describe('fixTypo Test Suite', () => {
             expect(() => typoFix.extractFixedText(inputText)).toThrow();
         });
 
-        it('fixTypoe should return the corrected typo', async () => {
+        it('fixTypo should return the corrected typo', async () => {
             const inputText = 'This is a test lime with a typoo.';
             const expectedText = 'This is a test line with a typo.';
             const response = {
