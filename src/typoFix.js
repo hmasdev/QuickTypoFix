@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const getApiKey = require('./apiKeyManagement').getApiKey;
 
 const DEFAULT_API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
-const DEFAUT_MODEL_NAME = 'gpt-4o-mini';
+const DEFAULT_MODEL_NAME = 'gpt-4o-mini';
 const OUTPUT_FORMAT_KEY = 'typoFixed';
 const START_TAG = `<${OUTPUT_FORMAT_KEY}>`;
 const END_TAG = `</${OUTPUT_FORMAT_KEY}>`;
@@ -55,7 +55,7 @@ async function fixTypo(text, context) {
     }
     let modelName = vscode.workspace.getConfiguration().get('quicktypofix.modelName');
     if (!modelName) {
-        modelName = DEFAUT_MODEL_NAME;
+        modelName = DEFAULT_MODEL_NAME;
         vscode.window.showWarningMessage('Model name is not set. Using default model: ' + modelName);
     }
     let systemPrompt = vscode.workspace.getConfiguration().get('quicktypofix.systemPrompt');
@@ -99,7 +99,7 @@ async function fixTypo(text, context) {
 
 module.exports = {
     DEFAULT_API_ENDPOINT,
-    DEFAUT_MODEL_NAME,
+    DEFAULT_MODEL_NAME,
     fixTypo,
     START_TAG,  // FIXME: this should be private, but it is used in the test code
     END_TAG,  // FIXME: this should be private, but it is used in the test code
