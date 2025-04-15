@@ -23,9 +23,8 @@ jobs:
           npm install
 
       - name: Build
-        uses: lannonbr/vsce-action@4.0.0
-        with:
-          args: package
+        run: |
+          npx @vscode/vsce package
 
       - name: Set artifact name
         run: echo "ARTIFACT_NAME=$(echo quicktypofix-*.vsix)" >> $GITHUB_ENV
