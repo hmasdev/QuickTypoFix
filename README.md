@@ -60,7 +60,7 @@ You can install this extension in two ways:
 4. Build the extension:
 
     ```sh
-    npx vsce package
+    npx @vscode/vsce package
     ```
 
 5. Install the extension with `install from VSIX...` in VS Code in the same way as the [above](#download-vsix-file).
