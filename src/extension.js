@@ -2,6 +2,9 @@ const vscode = require('vscode');
 const diff = require('diff');
 const fixTypo = require('./typoFix').fixTypo;
 const temporalHighLight = require('./temporalHighLight').temporalHighLight;
+const registerApiKey = require('./apiKeyManagement').registerApiKey;
+const clearApiKey = require('./apiKeyManagement').clearApiKey;
+const previewMaskedApiKey = require('./apiKeyManagement').previewMaskedApiKey;
 
 class TypoFixer {
 
@@ -21,7 +24,7 @@ class TypoFixer {
 		this._is_activated = false;
 	}
 
-	async run() {
+	async run(context) {
 
 		if (!this.is_activated()) {
 			vscode.window.showInformationMessage('QuickTypoFix is not activated');
@@ -46,7 +49,7 @@ class TypoFixer {
 		// fix the typo
 		let fixedText;
         try {
-			fixedText = await fixTypo(cursorLineText);
+			fixedText = await fixTypo(cursorLineText, context);
         } catch (error) {
             console.error(`Failed to fix typo: ${error}`);
             vscode.window.showErrorMessage(`Failed to fix typo: ${error}`);
@@ -86,8 +89,14 @@ function activate(context) {
 
     let typoFixer = new TypoFixer();
 
-    let disposable = vscode.commands.registerCommand('quicktypofix.fixTypo', ()=>{typoFixer.run();});
-    context.subscriptions.push(disposable);
+    let fixType_ = vscode.commands.registerCommand('quicktypofix.fixTypo', ()=>{typoFixer.run(context);});
+    context.subscriptions.push(fixType_);
+	let registerApiKey_ = vscode.commands.registerCommand('quickTypoFix.registerApiKey', async () => {await registerApiKey(context);});
+	context.subscriptions.push(registerApiKey_);
+	let clearApiKey_ = vscode.commands.registerCommand('quickTypoFix.clearApiKey', async () => {await clearApiKey(context);});
+	context.subscriptions.push(clearApiKey_);
+	let previewMaskedApiKey_ = vscode.commands.registerCommand('quickTypoFix.previewMaskedApiKey', async () => {await previewMaskedApiKey(context);});
+	context.subscriptions.push(previewMaskedApiKey_);
 }
 
 function deactivate() {}

@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/hmasdev/QuickTypoFix"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.87.0"
   },
@@ -18,8 +18,20 @@
   "contributes": {
     "commands": [
       {
+        "command": "quickTypoFix.registerApiKey",
+        "title": "QuickTypoFix: Register API Key"
+      },
+      {
+        "command": "quickTypoFix.clearApiKey",
+        "title": "QuickTypoFix: Clear Stored API Key"
+      },
+      {
+        "command": "quickTypoFix.previewMaskedApiKey",
+        "title": "QuickTypoFix: Preview Masked API Key"
+      },
+      {
         "command": "quicktypofix.fixTypo",
-        "title": "Fix typo in this line"
+        "title": "QuickTypoFix: Fix typo in this line"
       }
     ],
     "keybindings": [
@@ -33,11 +45,6 @@
     "configuration": {
       "title": "QuickTypoFix",
       "properties": {
-        "quicktypofix.apiKey": {
-          "type": "string",
-          "default": "",
-          "description": "API key for typo corrections."
-        },
         "quicktypofix.apiEndpoint": {
           "type": "string",
           "default": "https://api.openai.com/v1/chat/completions",
@@ -89,7 +96,8 @@
     "nock": "^13.5.4",
     "rewire": "^7.0.0",
     "sinon": "^17.0.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vsce": "^2.15.0"
   },
   "dependencies": {
     "diff": "^5.2.0",

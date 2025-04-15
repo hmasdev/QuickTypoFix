@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const fetch = require('node-fetch');
+const getApiKey = require('./apiKeyManagement').getApiKey;
 
 const DEFAULT_API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 const DEFAUT_MODEL_NAME = 'gpt-4o-mini';
@@ -39,28 +40,28 @@ function extractFixedText(text) {
     return fixedText;
 }
 
-async function fixTypo(text){
+async function fixTypo(text, context) {
 
     // get settings
-    let apiKey = vscode.workspace.getConfiguration().get('quicktypofix.apiKey');
+    let apiKey = await getApiKey(context);
     if (!apiKey) {
-        apiKey = process.env.OPENAI_API_KEY || '';
-        if (!apiKey) {throw new Error('API key or OPENAI_API_KEY is not set');}
+        vscode.window.showErrorMessage('API Key is not set. Please set it properly.');
+        throw new Error('API Key has not been set.');
     }
     let apiEndpoint = vscode.workspace.getConfiguration().get('quicktypofix.apiEndpoint');
     if (!apiEndpoint) {
         apiEndpoint = DEFAULT_API_ENDPOINT;
-        vscode.window.showWarningMessage('API endpoint is not set. Using default endpoint: '+apiEndpoint);
+        vscode.window.showWarningMessage('API endpoint is not set. Using default endpoint: ' + apiEndpoint);
     }
     let modelName = vscode.workspace.getConfiguration().get('quicktypofix.modelName');
     if (!modelName) {
         modelName = DEFAUT_MODEL_NAME;
-        vscode.window.showWarningMessage('Model name is not set. Using default model: '+modelName);
+        vscode.window.showWarningMessage('Model name is not set. Using default model: ' + modelName);
     }
     let systemPrompt = vscode.workspace.getConfiguration().get('quicktypofix.systemPrompt');
     if (!systemPrompt) {
         systemPrompt = 'Excellent Typo Fixer';
-        vscode.window.showWarningMessage('System prompt is not set. Using default prompt: '+systemPrompt);
+        vscode.window.showWarningMessage('System prompt is not set. Using default prompt: ' + systemPrompt);
     }
 
     return await fetch(apiEndpoint, {
@@ -71,8 +72,8 @@ async function fixTypo(text){
         },
         body: JSON.stringify({
             messages: [
-                {role: 'system', content: systemPrompt+'\n\n'+OUTPUT_INSTRUCTIONS},
-                {role: 'user', content: `Fix typo: ${text}`},
+                { role: 'system', content: systemPrompt + '\n\n' + OUTPUT_INSTRUCTIONS },
+                { role: 'user', content: `Fix typo: ${text}` },
             ],
             temperature: 0.5,
             top_p: 1.0,
