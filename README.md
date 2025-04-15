@@ -60,7 +60,7 @@ You can install this extension in two ways:
 4. Build the extension:
 
     ```sh
-    vsce package
+    npx vsce package
     ```
 
 5. Install the extension with `install from VSIX...` in VS Code in the same way as the [above](#download-vsix-file).
@@ -69,11 +69,16 @@ You can install this extension in two ways:
 
 ### Preparation(Configuration)
 
+#### Required Configuration
+
+Open the command palette with `Ctrl+Shift+P` and type `QuickTypoFix: Register API Key`.
+Then type your OpenAI API key and press `Enter`.
+
+#### Optional Configuration
+
 Open the setting page with `Ctrl+,` and search `quicktypofix`.
 Then you can customize this extension as follows:
 
-- **REQUIRED**
-  - `quicktypofix.apiKey`: The API key for typo corrections. Default is an empty string;
 - **Optional**
   - `quicktypofix.apiEndpoint`: The OpenAI-compatible chat completion API endpoint for typo corrections. Default is [https://api.openai.com/v1/chat/completions](https://api.openai.com/v1/chat/completions);
   - `quicktypofix.modelName`: The LLM model name for typo corrections. Default is `gpt-4o-mini`;
@@ -88,7 +93,7 @@ During writing codes or texts in VS Code, you can use the QuickTypoFix command t
 
 1. `Ctrl+Shift+P` to open the command palette, then type `Fix typo in this line` and select the command.
 
-or
+   or
 
 2. `Crtl+K Ctrl+N` to execute the command directly.
 
@@ -96,16 +101,26 @@ or
 
 After fixed, the typo will be highlighted for a short period of time. Check them.
 
+#### Optional Usage
+
+Here is the list of ways to use this extension in the command palette:
+
+1. `"QuickTypoFix: Register API Key"`: to register your OpenAI API key.
+2. `"QuickTypoFix: Clear Stored API Key"`: to clear the stored OpenAI API key.
+3. `"QuickTypoFix: Preview Masked API Key"`: to preview your OpenAI API key with the masked format.
+   - For example, if your OpenAI API key is `sk-1234567890890890`, the masked format is `sk-**********890`.
+4. `"QuickTypoFix: Fix typo in this line"`: to fix the typos in the current line, which is the same as the default shortcut `Ctrl+K Ctrl+N`.
+
 ## Development
 
-### Requirements
+### Development Requirements
 
 - [Node.js](https://nodejs.org/) >= v20.11.1
 - [npm](https://www.npmjs.com/get-npm)
   - Dependencies (See the [package.json](./package.json) for the details)
     - [vsce](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) >= 2.24.0
     - [diff](https://www.npmjs.com/package/diff) >= 5.2.0
-    - [node-fetch](https://www.npmjs.com/package/ node-fetch) >= 2.6.7
+    - [node-fetch](https://www.npmjs.com/package/node-fetch) >= 2.6.7
 
 ### How to Develop
 
